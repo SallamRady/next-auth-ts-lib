@@ -7,7 +7,6 @@ function Navbar() {
   // session to know user is logged or not
   const session = useSession();
 
-  console.log("sesssssssion data", session);
   return (
     <nav className="header">
       <h1 className="logo">
@@ -21,12 +20,16 @@ function Navbar() {
         <li>
           <Link href="/">Home</Link>
         </li>
-        <li>
-          <Link href="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link href="/blog">Blog</Link>
-        </li>
+        {session.status == "authenticated" && (
+          <>
+            <li>
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link href="/blog">Blog</Link>
+            </li>
+          </>
+        )}
 
         {session.status == "unauthenticated" && (
           <li>
