@@ -1,5 +1,7 @@
-import Link from "next/link";
+"use client";
+import { signIn, signOut } from "next-auth/react";
 import "./index.css";
+import Link from "next/link";
 
 function Navbar() {
   return (
@@ -31,6 +33,13 @@ function Navbar() {
             Sign In
             {/* </a> */}
           </Link>
+          <button
+            onClick={() => {
+              signIn("github");
+            }}
+          >
+            Login Btn
+          </button>
         </li>
         {/* // )} */}
         {/* {session && ( */}
@@ -45,6 +54,13 @@ function Navbar() {
             Sign Out
             {/* </a> */}
           </Link>
+          <button
+            onClick={() => {
+              signOut();
+            }}
+          >
+            Logout Btn
+          </button>
         </li>
         {/* // )} */}
       </ul>
