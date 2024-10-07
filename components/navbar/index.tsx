@@ -1,16 +1,23 @@
 "use client";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import "./index.css";
 import Link from "next/link";
 
 function Navbar() {
+  // session to know user is logged or not
+  const session = useSession();
+
+  console.log("sesssssssion data", session);
   return (
     <nav className="header">
       <h1 className="logo">
         <a href="#">NextAuth</a>
       </h1>
-      {/* ${!session && loading ? "loading" : "loaded"} */}
-      <ul className={`main-nav `}>
+      <ul
+        className={`main-nav  ${
+          session.status == "loading" ? "loading" : "loaded"
+        }`}
+      >
         <li>
           <Link href="/">Home</Link>
         </li>
@@ -21,48 +28,48 @@ function Navbar() {
           <Link href="/blog">Blog</Link>
         </li>
 
-        {/* {!loading && !session && ( */}
-        <li>
-          <Link href="/api/auth/signin">
-            {/* <a
+        {session.status == "unauthenticated" && (
+          <li>
+            <Link href="/api/auth/signin">
+              {/* <a
               onClick={(e) => {
                 e.preventDefault();
                 //   signIn("github");
               }}
             > */}
-            Sign In
-            {/* </a> */}
-          </Link>
-          <button
-            onClick={() => {
-              signIn("github");
-            }}
-          >
-            Login Btn
-          </button>
-        </li>
-        {/* // )} */}
-        {/* {session && ( */}
-        <li>
-          <Link href="/api/auth/signout">
-            {/* <a
+              Sign In
+              {/* </a> */}
+            </Link>
+            <button
+              onClick={() => {
+                signIn("github");
+              }}
+            >
+              Login Btn
+            </button>
+          </li>
+        )}
+        {session.status == "authenticated" && (
+          <li>
+            <Link href="/api/auth/signout">
+              {/* <a
               onClick={(e) => {
                 e.preventDefault();
                 //   signOut();
               }}
             > */}
-            Sign Out
-            {/* </a> */}
-          </Link>
-          <button
-            onClick={() => {
-              signOut();
-            }}
-          >
-            Logout Btn
-          </button>
-        </li>
-        {/* // )} */}
+              Sign Out
+              {/* </a> */}
+            </Link>
+            <button
+              onClick={() => {
+                signOut();
+              }}
+            >
+              Logout Btn
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );
